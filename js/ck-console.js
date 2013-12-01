@@ -3,7 +3,7 @@ angular.module('ckServices', [])
 /*******************************************
   CKConsole service
 ********************************************/
-	.service('$ckConsole', ['$rootScope', '$q', function($rootScope, $q) {
+	.service('ckConsole', ['$rootScope', '$q', function($rootScope, $q) {
 		this.rootRef = new Firebase('http://cityknowledge.firebaseio.com');
 		this.groupsRef = this.rootRef.child('groups');
 		this.mapsRef = this.rootRef.child('maps');
@@ -15,6 +15,7 @@ angular.module('ckServices', [])
 		this.maps = {};
 		this.forms = {};
 		this.data = {};
+		this.expandedData = {};
 
 		/**
 		 * @param groupname the name of the group to get
@@ -78,6 +79,58 @@ angular.module('ckServices', [])
 			}
 			else{
 				return this.data[dataId] = this.getValue(this.dataRef, dataId);
+			}
+		}
+		
+		this.isReferenceSubgroup = function (propertyValue){
+			if(!(propertyValue instanceof Object))
+				return false;
+			for(id in propertyValue){
+				if (propertyValue.hasOwnProperty(id)) {
+					var val = propertyValue[id];
+					if(typeof val != 'string' || id!=val)
+						return false;
+				}
+			}
+			return true;
+		};
+		
+		/**
+		 * @param dataId the id of the form
+		 * @return AsyncValue<data>
+		 */
+		this.getExpandedData = function(dataId){
+			if(this.expandedData[dataId]){
+				return this.expandedData[dataId];
+			}
+			else{
+				var _this = this;
+				return this.expandedData[dataId] = this.getData(dataId).then(function(baseData){
+					var extendedData = $.extend(true, {}, baseData);//deep copy
+					var expansions = [];
+					for(propertyGroupId in extendedData){
+						if (extendedData.hasOwnProperty(propertyGroupId)) {
+							var propertyGroup = extendedData[propertyGroupId];
+							for(propertyId in propertyGroup){
+								if (propertyGroup.hasOwnProperty(propertyId)) {
+									var value = propertyGroup[propertyId];
+									if(_this.isReferenceSubgroup(value)){
+										var subgroup = {};
+										for(id in value){
+											expansions.push((function(_subgroup, _id){
+												return _this.getData(id).then(function(v){
+													return _subgroup[_id] = v;
+												});
+											})(subgroup, id));
+										}
+										propertyGroup[propertyId] = subgroup;
+									}
+								}
+							}
+						}
+					}
+					return $q.all(expansions).then(function(){return extendedData;});
+				});
 			}
 		}
 
@@ -229,8 +282,9 @@ angular.module('ckServices', [])
 					var propertyGroup = form.permissions[propertyGroupId];
 					for(propertyId in propertyGroup){
 						var formPropertySpec = propertyGroup[propertyId];
-						if(formPropertySpec.read)
-							resultFields[propertyId] = item[propertyGroupId][propertyId];
+						var value = item[propertyGroupId][propertyId];
+						if(formPropertySpec.read && !(value instanceof Object))
+							resultFields[propertyId] = value;
 					}
 				}
 			}
@@ -240,7 +294,7 @@ angular.module('ckServices', [])
 						var value = item.data[fieldId];
 						if(value){
 							if(!(value instanceof Array) && !(value instanceof Object)){
-								resultFields[fieldId] = item.data[fieldId];
+								resultFields[fieldId] = value;
 							}
 						}
 					}
@@ -250,12 +304,36 @@ angular.module('ckServices', [])
 		};
 	})
 	
+/*******************************************
+  Filter for the values of the subgroup properties of an item
+********************************************/
+	.filter('subgroupItems', ['ckConsole', function (ckConsole) {
+		return function (item, form) {
+			var items = [];
+			if(!item)
+				return items;
+			if(form){
+				for(propertyGroupId in form.permissions){
+					var propertyGroup = form.permissions[propertyGroupId];
+					for(propertyId in propertyGroup){
+						var formPropertySpec = propertyGroup[propertyId];
+						var value = item[propertyGroupId][propertyId];
+						if(formPropertySpec.read && value instanceof Object){
+							for(subitemId in value)
+								items.push(value[subitemId]);
+						}
+					}
+				}
+			}
+			return items;
+		};
+	}])
 	
 	
 /*******************************************
   CKConsole Map service
 ********************************************/
-	.service('$ckConsoleMap', ['$rootScope', '$q', '$ckConsole', function($rootScope, $q, $ckConsole) {
+	.service('ckConsoleMap', ['$rootScope', '$q', 'ckConsole', function($rootScope, $q, ckConsole) {
 		this.createMapLayersFromMapData = function(map, mapPromise, createCallback){
 			var _this = this;
 			var deferred = $q.defer();

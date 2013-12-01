@@ -1,7 +1,35 @@
-<pre><a ng-click="backToMap()">Go Back and stuff</a></pre>
-<pre>$location.path() = {{$location.path()}}</pre>
-<pre>$route.current.templateUrl = {{$route.current.templateUrl}}</pre>
-<pre>$route.current.params = {{$route.current.params}}</pre>
-<pre>$route.current.scope.name = {{$route.current.scope.name}}</pre>
-<pre>$routeParams = {{$routeParams}}</pre>
-<pre>data = {{data}}</pre>
+<div class="more-info">
+	<div class="more-info-header">
+		<span ng-click="backToMap()" class="back-button">
+			<span class="icon-arrow-left"/>
+		</span>
+		<span class="more-info-title">{{item.data.Title}}</span>
+	</div>
+	<div>
+		<div class="main-info">
+			<div ng-repeat="(fieldId, value) in item | displayForm:mainForm">
+				<span class="key">{{fieldId}}</span>
+				<span class="value">{{value}}</span>
+			</div>
+		</div>
+		<div class="subgroups">
+			<table ng-repeat="subgroupItem in item | subgroupItems:mainForm" class="subgroup">
+				<tr class="subgroup-top" ng-click="toggleVisibleSubgroup($index)">
+					<td class="subgroup-left subgroup-icon" style="background:{{colorFromType(subgroupItem)}}">
+						<span ng-class="iconClassFromType(subgroupItem)"/>
+					</td>
+					<td class="subgroup-header subgroup-right">{{subgroupItem.data.Title}}</td>
+				</tr>
+				<tr class="subgroup-bottom animate-show" ng-show="visibleSubgroup == $index">
+					<td class="subgroup-left" style="background:{{colorFromType(subgroupItem)}}"></td>
+					<td class="subgroup-right subgroup-property-container">
+						<div ng-repeat="(key, value) in subgroupItem | displayForm:formFromType(subgroupItem)" class="subgroup-property">
+							<span class="key">{{key}}</span>
+							<span class="value">{{value}}</span>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

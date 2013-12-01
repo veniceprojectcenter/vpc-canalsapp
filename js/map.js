@@ -1,4 +1,4 @@
-angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', '$ckConsole', '$ckConsoleMap', '$location', function($scope, $compile, $q, $ckConsole, $ckConsoleMap, $location){
+angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'ckConsole', 'ckConsoleMap', '$location', function($scope, $compile, $q, ckConsole, ckConsoleMap, $location){
 	var htmlContent = '<span><div ng-include src="\'views/infopopup.html\'"></div></span>';
 	var compiledPopup = $compile(htmlContent)($scope);
 	$scope.infoPopup = L.popup().setContent(compiledPopup[0]);
@@ -29,7 +29,7 @@ angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', '$
 			"MERGE Canal Segments":  "Canal Segments",
 			"MERGE Canals":  "Canals",
 		};
-		$ckConsoleMap.createMapLayersFromMapData($scope.map, $ckConsole.getMap("map-1d66484b-0b76-f058-0a17-530bca13b072", true), function(groupname, layer){
+		ckConsoleMap.createMapLayersFromMapData($scope.map, ckConsole.getMap("map-1d66484b-0b76-f058-0a17-530bca13b072", true), function(groupname, layer){
 			layer.setStyle(styles[groupname]);
 			layer.on('click', showInfoBox);
 			$scope.layerControl.addOverlay(layer.getLayer(), names[groupname]);
@@ -44,17 +44,14 @@ angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', '$
 		
 		
 		function showInfoBox(e, member, marker, layer){
+			$scope.popupLayer= layer;
 			$scope.popupItem = member;
-			if(layer.properties.bubble && layer.properties.bubble.type=='form' && layer.properties.bubble.form)
-				$scope.popupForm = layer.properties.bubble.form;
-			else
-				$scope.popupForm = null;
 			$scope.$apply();//make sure to update popup before displaying it
 			$scope.infoPopup.setLatLng(e.latlng).openOn($scope.map);
 		}
 		
 		$scope.showMoreInfo = function(){
-			$location.path('/moreInfo/form/'+$scope.popupItem.birth_certificate.ckID);
+			$location.path('/moreInfo/'+$scope.popupLayer.properties.moreLink.id+'/'+$scope.popupItem.birth_certificate.ckID);
 		}
 		
 		$scope.visitVenipedia = function(){

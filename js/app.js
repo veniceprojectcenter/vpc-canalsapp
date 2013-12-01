@@ -1,5 +1,5 @@
-angular.module('canalapp', ['uiSlider', 'ckServices', 'ngRoute'])
-	.config(function($routeProvider, $locationProvider) {
+angular.module('canalapp', ['uiSlider', 'ckServices', 'ngRoute', 'ngAnimate'])
+	.config(function($routeProvider, $locationProvider, $rootScopeProvider) {
 		$routeProvider.when('/map', {
 			templateUrl: 'views/map.html',
 			controller: 'MapCtrl'
@@ -11,4 +11,5 @@ angular.module('canalapp', ['uiSlider', 'ckServices', 'ngRoute'])
 		$routeProvider.otherwise({
 			redirectTo: '/map'
 		});
+		$rootScopeProvider.digestTtl(30);
 	});

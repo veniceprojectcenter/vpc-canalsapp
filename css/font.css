@@ -56,20 +56,26 @@
 .icon-stack:before {
 	content: "\e009";
 }
+.icon-crosshair-empty:before {
+	content: "\e00a";
+}
 .icon-cog:before {
 	content: "\e00b";
-}
-.icon-camera:before {
-	content: "\e00e";
 }
 .icon-arrow-left:before {
 	content: "\e00c";
 }
-.icon-arrow-right:before {
-	content: "\e010";
+.icon-sad:before {
+	content: "\e00d";
+}
+.icon-camera:before {
+	content: "\e00e";
 }
 .icon-wikipedia:before {
 	content: "\e00f";
+}
+.icon-arrow-right:before {
+	content: "\e010";
 }
 .icon-heart-full:before {
 	content: "\e011";
@@ -77,32 +83,20 @@
 .icon-heart-empty:before {
 	content: "\e012";
 }
-.icon-coin:before {
-	content: "\e00d";
-}
-.icon-crosshair-empty:before {
-	content: "\e00a";
-}
 .icon-crosshair-full:before {
 	content: "\e013";
 }
 .icon-x:before {
 	content: "\e014";
 }
-.icon-flag:before {
-	content: "\e016";
-}
-.icon-sad:before {
-	content: "\e00d";
-}
 .icon-question:before {
 	content: "\e015";
 }
+.icon-flag:before {
+	content: "\e016";
+}
 .icon-document:before {
 	content: "\e017";
-}
-.icon-warning:before {
-	content: "\e01b";
 }
 .icon-arrow-down:before {
 	content: "\e018";
@@ -112,6 +106,9 @@
 }
 .icon-lamp:before {
 	content: "\e01a";
+}
+.icon-warning:before {
+	content: "\e01b";
 }
 .icon-museum:before {
 	content: "\e01c";
