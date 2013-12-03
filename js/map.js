@@ -17,19 +17,19 @@ angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'c
 		$scope.layerControl = L.control.layers({"Map": $scope.baseLayer}, {}).addTo($scope.map);
 		
 		var styles = {
-			"MAPS Bridges": {fillColor: '#FF0000',color: '#FF0000',
-					fillOpacity: 1.0, weight: 10, opacity: 1.0},
+			"MERGE Ponti": {fillColor: '#FF0000',color: '#FF0000',
+					fillOpacity: 1.0, weight: 8, opacity: 1.0},
 			"MERGE Canal Segments":  {fillColor: '#00FF00',color: '#00FF00',
 					fillOpacity: 1.0, weight: 1, opacity: 1.0},
 			"MERGE Canals":  {fillColor: '#0000FF',color: '#0000FF',
 					fillOpacity: 1.0, weight: 1, opacity: 1.0},
 		};
 		var names = {
-			"MAPS Bridges": "Bridges",
+			"MERGE Ponti": "Bridges",
 			"MERGE Canal Segments":  "Canal Segments",
 			"MERGE Canals":  "Canals",
 		};
-		ckConsoleMap.createMapLayersFromMapData($scope.map, ckConsole.getMap("map-1d66484b-0b76-f058-0a17-530bca13b072", true), function(groupname, layer){
+		ckConsoleMap.createMapLayersFromMapData($scope.map, ckConsole.getMap("map-408fc81f-c4ec-2ffe-b476-7290cdf8d9b3", true), function(groupname, layer){
 			layer.setStyle(styles[groupname]);
 			layer.on('click', showInfoBox);
 			$scope.layerControl.addOverlay(layer.getLayer(), names[groupname]);

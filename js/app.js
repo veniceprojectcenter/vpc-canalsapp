@@ -12,4 +12,21 @@ angular.module('canalapp', ['uiSlider', 'ckServices', 'ngRoute', 'ngAnimate'])
 			redirectTo: '/map'
 		});
 		$rootScopeProvider.digestTtl(30);
-	});
+	})
+	.run(['$location', '$rootScope', 'ckConsole', function($location, $rootScope, ckConsole) {
+		$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+			switch(current.$$route.controller){
+			case 'MapCtrl':
+				document.title = "Venice Canals Map";
+				break;
+			case 'MoreInfoCtrl':
+				ckConsole.getData(current.params.itemId).then(function(item){
+					document.title = item.data.Title;
+				});
+				break;
+			default:
+				document.title = "Venice Canals";
+				break;
+			}
+		});
+	}]);

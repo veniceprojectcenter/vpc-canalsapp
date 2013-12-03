@@ -9,7 +9,7 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 	
 	ckConsole.getExpandedData($route.current.params.itemId).then(function(val){
 		$scope.item = val;
-		console.log(val);
+		$scope.hasImage = false;
 	});
 	ckConsole.getForm($route.current.params.formId).then(function(val){
 		$scope.mainForm = val;
@@ -19,22 +19,41 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 	$q.all({
 		"MERGE Canal Segments": ckConsole.getForm("30075bc4-1887-ff9c-a0a8-c2057d8e7fd7")
 	}).then(function(map){formIdFromType = map;});
-	var iconClassFromType = {
+	var subgroupDataFromType = {
 		"MERGE Canal Segments": {
 			icon: "icon-stack",
-			color: "rgb(6, 151, 0)"
+			color: "rgb(6, 151, 0)",
+			formId: "30075bc4-1887-ff9c-a0a8-c2057d8e7fd7"
+		},
+		"DATA Job Items": {
+			icon: "icon-document",
+			color: "rgb(100, 20, 0)",
+			formId: "9bf8a58e-27b3-19b2-cc4c-235cc999f825"
 		}
 	};
+	var subgroupFormQuery = {};
+	for(var type in subgroupDataFromType){
+		var formId = subgroupDataFromType[type].formId;
+		if(formId)
+			subgroupFormQuery[type] = ckConsole.getForm(formId);
+	}
+	$q.all(subgroupFormQuery).then(function(subgroupForms){
+		for(var type in subgroupForms){
+			subgroupDataFromType[type].form = subgroupForms[type];
+		}
+		console.log(subgroupDataFromType);
+	});
 	
 	$scope.formFromType = function(item){
-		return formIdFromType[item.birth_certificate.type];
+		return subgroupDataFromType[item.birth_certificate.type].form;
 	};
-	$scope.iconClassFromType = function(subitem){
-		return iconClassFromType[subitem.birth_certificate.type].icon;
+	$scope.iconClassFromType = function(item){
+		return subgroupDataFromType[item.birth_certificate.type].icon;
 	};
-	$scope.colorFromType = function(subitem){
-		return iconClassFromType[subitem.birth_certificate.type].color;
+	$scope.colorFromType = function(item){
+		return subgroupDataFromType[item.birth_certificate.type].color;
 	};
+	
 	
 	$scope.visibleSubgroup = 0;
 	$scope.toggleVisibleSubgroup = function(index){
