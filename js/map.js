@@ -19,7 +19,7 @@ angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'c
 		var styles = {
 			"MERGE Ponti": {fillColor: '#FF0000',color: '#FF0000',
 					fillOpacity: 1.0, weight: 8, opacity: 1.0},
-			"MERGE Canal Segments":  {fillColor: '#00FF00',color: '#00FF00',
+			"MERGE Canal Segments":  {fillColor: '#00FF00',color: '#000000',
 					fillOpacity: 1.0, weight: 1, opacity: 1.0},
 			"MERGE Canals":  {fillColor: '#0000FF',color: '#0000FF',
 					fillOpacity: 1.0, weight: 1, opacity: 1.0},
