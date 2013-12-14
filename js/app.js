@@ -1,4 +1,4 @@
-angular.module('canalapp', ['uiSlider', 'ckServices', 'ngRoute', 'ngAnimate'])
+angular.module('canalapp', ['ckServices', 'ngRoute', 'ngAnimate'])
 	.config(function($routeProvider, $locationProvider, $rootScopeProvider) {
 		$routeProvider.when('/map', {
 			templateUrl: 'views/map.html',
