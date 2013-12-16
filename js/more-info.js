@@ -35,7 +35,6 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 			icon: "icon-document",
 			color: "rgb(1, 34, 66)",
 			formId: "2c67a823-76a4-9f05-c4f9-ddafbf3ac8c9",
-			title: "Boat Traffic",
 		},
 	};
 	var subgroupFormQuery = {};
@@ -51,9 +50,6 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 		console.log(subgroupDataFromType);
 	});
 	
-	$scope.titleFromType = function(item){
-		return subgroupDataFromType[item.birth_certificate.type].title;
-	};
 	$scope.formFromType = function(item){
 		return subgroupDataFromType[item.birth_certificate.type].form;
 	};

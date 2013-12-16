@@ -336,7 +336,22 @@ angular.module('ckServices', [])
 			return items;
 		};
 	}])
-	
+	.directive('ckTitle', ['$compile', function($compile) {
+		return {
+			scope: {
+				curMember: '=item',
+				form: '=form'
+			},
+			link: function(scope, element, attrs) {
+				scope.$watch( 'form.options.titleString', function ( titleTemplate ) {
+					if ( angular.isDefined( titleTemplate ) ) {
+						element.html(titleTemplate);
+						$compile(element.contents())(scope);
+					}
+				});
+			},
+		};
+	}])
 	
 /*******************************************
   CKConsole Map service

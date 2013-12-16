@@ -1,11 +1,12 @@
 angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'ckConsole', 'ckConsoleMap', '$location', function($scope, $compile, $q, ckConsole, ckConsoleMap, $location){
-	var htmlContent = '<span><div ng-include src="\'views/infopopup.html\'"></div></span>';
-	var compiledPopup = $compile(htmlContent)($scope);
-	$scope.infoPopup = L.popup().setContent(compiledPopup[0]);
 		
 	$( document ).ready(function() {
 		$('#loadingPanel').css('background-color','rgba(0,0,0,0.5)');
 		$('#spinner').spin('large', '#fff');
+		
+		var htmlContent = '<span><div ng-include src="\'views/infopopup.html\'"></div></span>';
+		var compiledPopup = $compile(htmlContent)($scope);
+		$scope.infoPopup = L.popup().setContent(compiledPopup[0]);
 		
 		$scope.map = L.map("map-canvas", {minZoom: 14}).setView([45.436 , 12.334], 14);
 		$scope.baseLayer = new L.TileLayer(

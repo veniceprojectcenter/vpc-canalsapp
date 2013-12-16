@@ -1,5 +1,5 @@
 <table style="min-width:220px;">
-	<tr><td colspan="2"><h4>{{popupItem.data.Title}}</h4></td></tr>
+	<tr><td colspan="2"><h4 ck-title item="popupItem" form="popupLayer.properties.bubble.form"></h4></td></tr>
 	<tr><td colspan="2">
 		<table style="width:100%;" class="info-popup-table">
 			<tr ng-repeat="(name, value) in popupItem | displayForm:popupLayer.properties.bubble.form" ng-class-odd="'odd-info-popup-row'" ng-class-even="'even-info-popup-row'">
