@@ -264,13 +264,23 @@ angular.module('ckServices', [])
 			if(!item)
 				return resultFields;
 			if(form){
-				for(propertyGroupId in form.permissions){
-					var propertyGroup = form.permissions[propertyGroupId];
-					for(propertyId in propertyGroup){
-						var formPropertySpec = propertyGroup[propertyId];
-						var value = item[propertyGroupId][propertyId];
-						if(formPropertySpec.read && !(value instanceof Object))
-							resultFields[propertyId] = value;
+				if(form.content){
+					for(i in form.content){
+						var formPropertySpec = form.content[i];
+						var value = item[formPropertySpec.subdir][formPropertySpec.key];
+						if(formPropertySpec.type=="text")
+							resultFields[formPropertySpec.title] = value;
+					}
+				}
+				else{
+					for(propertyGroupId in form.permissions){
+						var propertyGroup = form.permissions[propertyGroupId];
+						for(propertyId in propertyGroup){
+							var formPropertySpec = propertyGroup[propertyId];
+							var value = item[propertyGroupId][propertyId];
+							if(formPropertySpec.read && !(value instanceof Object))
+								resultFields[propertyId] = value;
+						}
 					}
 				}
 			}
@@ -299,14 +309,26 @@ angular.module('ckServices', [])
 			if(!item)
 				return items;
 			if(form){
-				for(propertyGroupId in form.permissions){
-					var propertyGroup = form.permissions[propertyGroupId];
-					for(propertyId in propertyGroup){
-						var formPropertySpec = propertyGroup[propertyId];
-						var value = item[propertyGroupId][propertyId];
-						if(formPropertySpec.read && value instanceof Object){
+				if(form.content){
+					for(i in form.content){
+						var formPropertySpec = form.content[i];
+						var value = item[formPropertySpec.subdir][formPropertySpec.key];
+						if(formPropertySpec.type=="subdir"){
 							for(subitemId in value)
 								items.push(value[subitemId]);
+						}
+					}
+				}
+				else{
+					for(propertyGroupId in form.permissions){
+						var propertyGroup = form.permissions[propertyGroupId];
+						for(propertyId in propertyGroup){
+							var formPropertySpec = propertyGroup[propertyId];
+							var value = item[propertyGroupId][propertyId];
+							if(formPropertySpec.read && value instanceof Object){
+								for(subitemId in value)
+									items.push(value[subitemId]);
+							}
 						}
 					}
 				}

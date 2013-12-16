@@ -33,9 +33,6 @@ angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'c
 			layer.setStyle(styles[groupname]);
 			layer.on('click', showInfoBox);
 			$scope.layerControl.addOverlay(layer.getLayer(), names[groupname]);
-			
-			$('#loadingPanel').hide();
-			$('#spinner').spin(false);
 		}).then(function(map){
 			console.log(map);
 			$('#loadingPanel').hide();

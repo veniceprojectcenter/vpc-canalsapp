@@ -31,7 +31,8 @@
 					<td class="subgroup-left subgroup-icon" style="background:{{colorFromType(subgroupItem)}}">
 						<span ng-class="iconClassFromType(subgroupItem)"/>
 					</td>
-					<td class="subgroup-header subgroup-right">{{subgroupItem.data.Title}}</td>
+					<td class="subgroup-header subgroup-right" ng-if="!titleFromType(subgroupItem)">{{subgroupItem.data.Title}}</td>
+					<td class="subgroup-header subgroup-right" ng-if="titleFromType(subgroupItem)">{{titleFromType(subgroupItem)}}</td>
 					<td><span ng-class="{ 'icon-arrow-right': visibleSubgroup != $index, 'icon-arrow-down': visibleSubgroup == $index }" class="subgroup-expand-icon" /></td>
 				</tr>
 				<tr class="subgroup-bottom" ng-show="visibleSubgroup == $index">

@@ -17,19 +17,26 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 	
 	var formIdFromType = {};
 	$q.all({
-		"MERGE Canal Segments": ckConsole.getForm("30075bc4-1887-ff9c-a0a8-c2057d8e7fd7")
+		"MERGE Canal Segments": ckConsole.getForm("30075bc4-1887-ff9c-a0a8-c2057d8e7fd7"),
+		"DATA Segment Boat Traffic": ckConsole.getForm("30075bc4-1887-ff9c-a0a8-c2057d8e7fd7"),
 	}).then(function(map){formIdFromType = map;});
 	var subgroupDataFromType = {
 		"MERGE Canal Segments": {
 			icon: "icon-stack",
 			color: "rgb(6, 151, 0)",
-			formId: "30075bc4-1887-ff9c-a0a8-c2057d8e7fd7"
+			formId: "30075bc4-1887-ff9c-a0a8-c2057d8e7fd7",
 		},
 		"DATA Job Items": {
 			icon: "icon-document",
 			color: "rgb(100, 20, 0)",
-			formId: "9bf8a58e-27b3-19b2-cc4c-235cc999f825"
-		}
+			formId: "9bf8a58e-27b3-19b2-cc4c-235cc999f825",
+		},
+		"DATA Segment Boat Traffic": {
+			icon: "icon-document",
+			color: "rgb(1, 34, 66)",
+			formId: "2c67a823-76a4-9f05-c4f9-ddafbf3ac8c9",
+			title: "Boat Traffic",
+		},
 	};
 	var subgroupFormQuery = {};
 	for(var type in subgroupDataFromType){
@@ -44,6 +51,9 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 		console.log(subgroupDataFromType);
 	});
 	
+	$scope.titleFromType = function(item){
+		return subgroupDataFromType[item.birth_certificate.type].title;
+	};
 	$scope.formFromType = function(item){
 		return subgroupDataFromType[item.birth_certificate.type].form;
 	};
