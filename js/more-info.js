@@ -24,7 +24,7 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 		"MERGE Canal Segments": {
 			icon: "icon-stack",
 			color: "rgb(6, 151, 0)",
-			formId: "30075bc4-1887-ff9c-a0a8-c2057d8e7fd7",
+			formId: "39757f24-38a9-7a7c-dcc8-41ee3abdbeff",
 		},
 		"DATA Job Items": {
 			icon: "icon-document",
