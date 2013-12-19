@@ -22,7 +22,7 @@ angular.module('canalapp', ['ckServices', 'ngRoute', 'ngAnimate'])
 					break;
 				case 'MoreInfoCtrl':
 					ckConsole.getData(current.params.itemId).then(function(item){
-						document.title = item.data.Title;
+						document.title = "More Info";
 					});
 					break;
 				default:
