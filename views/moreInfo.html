@@ -8,14 +8,19 @@
 	<div>
 		<div class="main-info">
 			<div class="photo-container">
-				<div class="photo-frame">
-					<div class="no-select photo-missing" ng-hide="hasImage">
+				<div class="streetview-wrapper" ng-show="!hasImage && item.birth_certificate.lat && item.birth_certificate.lon">
+					<div ck-streetview class="streetview-panorama" birth-certificate="item.birth_certificate"></div>
+				</div>
+				<div class="photo-frame" ng-show="!hasImage && (!item.birth_certificate.lat || !item.birth_certificate.lon)">
+					<div class="no-select photo-missing">
 						<div>
 							<div class="icon-camera" style="font-size:40px;"/>
 							<div>missing</div>
 						</div>
 					</div>
-					<img src="tmp.jpg" class="photo" ng-show="hasImage"/>
+				</div>
+				<div class="photo-frame" ng-show="hasImage">
+					<img src="tmp.jpg" class="photo" />
 				</div>
 			</div>
 			<div class="main-info-property-container">

@@ -69,4 +69,42 @@ angular.module('canalapp').controller('MoreInfoCtrl', ['$scope', '$compile', '$q
 			$scope.visibleSubgroup = index;
 	};
 	
-}]);
+}])
+.directive('ckStreetview', function() {
+	return {
+		template: "<div></div>",
+		scope: {
+			birthCertificate: "="
+		},
+		link: function(scope, element, attrs) {
+
+			function resetStreetview() {
+				if (scope.birthCertificate) {
+					var bc = scope.birthCertificate;
+					if (bc.lat && bc.lon) {
+						var pos = new google.maps.LatLng(bc.lat, bc.lon),
+							pov = { heading: 34, pitch: 10 };
+
+						if (scope.streetview) {
+							scope.streetview.setPosition(pos);
+							scope.streetview.setPov(pov);
+						}
+						else {
+							var streetviewDiv = element[0];
+							scope.streetview = new google.maps.StreetViewPanorama(streetviewDiv, {
+								position: pos,
+								pov: pov,
+								disableDefaultUI: true
+							});
+						}
+						scope.streetview.setVisible(true);
+					}
+				}
+			}
+
+			scope.$watch('birthCertificate.ckID', function() {
+				resetStreetview();
+			});
+		}
+	}
+});
