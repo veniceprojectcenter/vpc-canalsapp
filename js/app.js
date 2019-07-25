@@ -8,6 +8,10 @@ angular.module('canalapp', ['ckServices', 'ngRoute', 'ngAnimate'])
 			templateUrl: 'views/moreInfo.html',
 			controller: 'MoreInfoCtrl'
 		});
+		$routeProvider.when('/about', {
+			templateUrl: 'views/about.html',
+			controller: 'About'
+		});
 		$routeProvider.otherwise({
 			redirectTo: '/map'
 		});
@@ -25,6 +29,8 @@ angular.module('canalapp', ['ckServices', 'ngRoute', 'ngAnimate'])
 						document.title = "More Info";
 					});
 					break;
+				case 'About':
+					console.log("Si, sei in about sembra");
 				default:
 					document.title = "Venice Canals";
 					break;

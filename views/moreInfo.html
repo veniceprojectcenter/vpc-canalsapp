@@ -1,4 +1,4 @@
-<div class="more-info">
+<div class="more-info" style="background-color: #000; color: #fff; height: 100%;">
 	<div class="more-info-header">
 		<span ng-click="backToMap()" class="back-button">
 			<span class="icon-arrow-left"/>
@@ -8,7 +8,7 @@
 	<div>
 		<div class="main-info">
 			<div class="photo-container">
-				<div class="streetview-wrapper" ng-show="!hasImage && item.birth_certificate.lat && item.birth_certificate.lon">
+				<div class="streetview-wrapper" ng-show="!hasImage && item && item.birth_certificate.lat && item.birth_certificate.lon">
 					<div ck-streetview class="streetview-panorama" birth-certificate="item.birth_certificate"></div>
 				</div>
 				<div class="photo-frame" ng-show="!hasImage && (!item.birth_certificate.lat || !item.birth_certificate.lon)">

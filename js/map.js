@@ -1,18 +1,18 @@
 angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'ckConsole', 'ckConsoleMap', '$location', function($scope, $compile, $q, ckConsole, ckConsoleMap, $location){
 	/* Displays question mark and vpc logo */
-	function createBrandBox(){
-		var info = L.control({position: "bottomleft"});
-		info.onAdd = function (map) {
-			var htmlContent = '<div class="info" style="width:auto;">'+
-				'<span ng-click="showAbout()"><img src="about.png" style="padding-right:7px;cursor:pointer;"></span>'+
-				'<a href="http://veniceprojectcenter.org"><img src="vpc25logo.png"></a>'+
-				'</div>';
-			$scope.compiled = $compile(htmlContent)($scope);
-			this._content = $scope.compiled[0];
-			return this._content;
-		};
-		return info;
-	}
+	// function createBrandBox(){
+	// 	var info = L.control({position: "bottomleft"});
+	// 	info.onAdd = function (map) {
+	// 		var htmlContent = '<div class="info" style="width:auto;">'+
+	// 			'<span ng-click="showAbout()"><img src="about.png" style="padding-right:7px;cursor:pointer;"></span>'+
+	// 			'<a href="http://veniceprojectcenter.org"><img src="vpc25logo.png"></a>'+
+	// 			'</div>';
+	// 		$scope.compiled = $compile(htmlContent)($scope);
+	// 		this._content = $scope.compiled[0];
+	// 		return this._content;
+	// 	};
+	// 	return info;
+	// }
 	
 	$scope.showAbout = function (){
 		$('#aboutPanel').show();
@@ -36,7 +36,7 @@ angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'c
 			{ attribution: 'Map tiles © MapBox' }
 			).addTo($scope.map);
 		L.control.scale().addTo($scope.map);
-		createBrandBox().addTo($scope.map);
+		// createBrandBox().addTo($scope.map);
 		$('#aboutPanel').hide();
 		
 		$scope.layerControl = L.control.layers({"Map": $scope.baseLayer}, {}).addTo($scope.map);
@@ -80,5 +80,9 @@ angular.module('canalapp').controller('MapCtrl', ['$scope', '$compile', '$q', 'c
 			var pageTitle = $scope.popupItem.data.wiki_friendly_title;
 			window.open("http://venipedia.org/wiki/index.php?title="+pageTitle);
 		}
+
+		$scope.toAbout = function(){
+	    $location.path('/about');
+	  };
 	});
 }]);
